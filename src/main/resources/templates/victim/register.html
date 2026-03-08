@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Anonymous Registration</title>
+    <style>
+        body { font-family: Arial; background:#f4f6fb; padding:40px; }
+        .card {
+            max-width:700px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background:#6a0dad;
+            color:white;
+            padding:12px 25px;
+            border:none;
+            border-radius:25px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+        .btn:hover { background:#520a9e; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Anonymous Registration</h2>
+
+    <p><b>Complete Anonymity:</b> No personal information required.
+        We will generate a unique Victim ID and Recovery Code for you.</p>
+
+    <h3>Privacy Guarantees:</h3>
+    ✓ No name, email, or phone number required<br>
+    ✓ Your identity is never shared with police<br>
+    ✓ All data is encrypted end-to-end<br>
+    ✓ You control if/when to reveal your identity<br><br>
+
+    <p style="color:red;">
+        ⚠️ Save your Victim ID and Recovery Code securely.
+        We cannot recover them if lost.
+    </p>
+
+    <form th:action="@{/victim/register}" method="post">
+        <button class="btn">Generate Anonymous Account</button>
+    </form>
+
+    <p style="margin-top:20px; font-size:13px;">
+        All communication is encrypted. Your data is never shared without consent.
+    </p>
+</div>
+
+</body>
+</html>

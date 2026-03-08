@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Counsellor Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<!-- HEADER -->
+<header class="bg-purple-700 text-white shadow-md">
+  <div class="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
+
+    <div>
+      <h1 class="text-2xl font-bold">SafeShield</h1>
+      <p class="text-sm opacity-80">Counsellor Support Portal</p>
+    </div>
+
+    <div class="flex items-center gap-6">
+
+      <div class="text-sm">
+        Logged in as
+        <span class="font-semibold">Counsellor</span>
+      </div>
+
+      <a href="/counsellor/logout"
+         class="bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">
+        Logout
+      </a>
+
+    </div>
+
+  </div>
+</header>
+
+
+<!-- MAIN CONTENT -->
+<div class="max-w-7xl mx-auto p-10">
+
+  <!-- PAGE TITLE -->
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold text-gray-800">
+      Victims Needing Support
+    </h2>
+    <p class="text-gray-500 mt-1">
+      You can open conversations and provide emotional support.
+    </p>
+  </div>
+
+
+  <!-- STATS CARDS -->
+  <div class="grid md:grid-cols-3 gap-6 mb-10">
+
+    <div class="bg-white rounded-xl shadow p-6">
+      <h3 class="text-gray-500 text-sm">Total Victims</h3>
+      <p class="text-3xl font-bold text-purple-700"
+         th:text="${#lists.size(messages)}">
+        0
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6">
+      <h3 class="text-gray-500 text-sm">Active Conversations</h3>
+      <p class="text-3xl font-bold text-blue-600"
+         th:text="${#lists.size(messages)}">
+        0
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6">
+      <h3 class="text-gray-500 text-sm">Support Provided</h3>
+      <p class="text-3xl font-bold text-green-600">
+        Active
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- CHAT TABLE -->
+  <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+    <div class="px-6 py-4 border-b">
+      <h3 class="text-lg font-semibold text-gray-800">
+        Victim Conversations
+      </h3>
+    </div>
+
+    <div class="overflow-x-auto">
+
+      <table class="w-full">
+
+        <thead class="bg-purple-100 text-purple-900">
+        <tr>
+          <th class="p-4 text-left">Victim ID</th>
+          <th class="p-4 text-left">Conversation</th>
+          <th class="p-4 text-left">Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <!-- VICTIM ROW -->
+
+        <tr th:each="victimId : ${messages}"
+            th:classappend="${@chatMessageRepository.findTop1ByVictimIdAndSenderOrderByTimestampDesc(victimId,'VICTIM')?.priority == 'HIGH'} ? 'bg-red-200' : ''">
+
+          <td class="p-3 font-semibold" th:text="${victimId}"></td>
+
+          <td class="p-3 text-gray-600">
+            Conversation available
+          </td>
+
+          <td class="p-3">
+            <a th:href="@{'/counsellor/chat'(victimId=${victimId})}"
+               class="bg-purple-600 text-white px-4 py-1 rounded hover:bg-purple-700">
+              Open Chat
+            </a>
+          </td>
+
+        </tr>
+
+
+
+        <!-- EMPTY STATE -->
+        <tr th:if="${#lists.isEmpty(messages)}">
+
+          <td colspan="3"
+              class="text-center py-10 text-gray-400">
+
+            No victims have started conversations yet.
+
+          </td>
+
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer class="text-center text-gray-400 text-sm py-6">
+  SafeShield Counselling System © 2026
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Case Details</title>
+</head>
+<body>
+
+<h2>Case Details</h2>
+
+<p><b>Case ID:</b> <span th:text="${complaint.caseId}"></span></p>
+<p><b>Victim ID:</b> <span th:text="${complaint.victimId}"></span></p>
+<p><b>Description:</b> <span th:text="${complaint.description}"></span></p>
+<p><b>Status:</b> <span th:text="${complaint.status}"></span></p>
+
+<hr>
+
+<h3>Status:
+    <span th:if="${complaint.status == 'Under Review'}"
+          style="color:orange; font-weight:bold;">
+        Under Review
+    </span>
+
+    <span th:if="${complaint.status == 'Investigation'}"
+          style="color:blue; font-weight:bold;">
+        Investigation
+    </span>
+
+    <span th:if="${complaint.status == 'Closed'}"
+          style="color:green; font-weight:bold;">
+        Closed
+    </span>
+</h3>
+
+<br>
+
+<form th:action="@{/police/update-status}" method="post">
+    <input type="hidden" name="id" th:value="${complaint.id}" />
+
+    <select name="status">
+        <option value="Under Review"
+                th:selected="${complaint.status == 'Under Review'}">
+            Under Review
+        </option>
+
+        <option value="Investigation"
+                th:selected="${complaint.status == 'Investigation'}">
+            Investigation
+        </option>
+
+        <option value="Closed"
+                th:selected="${complaint.status == 'Closed'}">
+            Closed
+        </option>
+    </select>
+
+    <button type="submit">Update</button>
+</form>
+
+<hr>
+
+<h3>Assign Officer</h3>
+
+<form action="/police/assign" method="post">
+
+    <input type="hidden" name="id" th:value="${complaint.id}">
+
+    Officer Name:
+    <input type="text" name="assignedOfficer" required>
+
+    <button type="submit">Assign</button>
+
+</form>
+
+<br>
+<a href="/police/dashboard">Back to Dashboard</a>
+
+</body>
+</html>

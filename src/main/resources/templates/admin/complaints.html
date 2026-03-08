@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Admin Complaints</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-7xl mx-auto p-10">
+
+  <h1 class="text-3xl font-bold text-purple-700 mb-8">
+    Admin Complaint Management
+  </h1>
+
+  <a href="/admin/dashboard"
+     class="bg-gray-600 text-white px-4 py-2 rounded mb-6 inline-block">
+    ← Back
+  </a>
+
+  <table class="w-full bg-white shadow rounded">
+
+    <thead class="bg-purple-100">
+    <tr>
+      <th class="p-3 text-left">Case Number</th>
+      <th class="p-3 text-left">Victim</th>
+      <th class="p-3 text-left">Type</th>
+      <th class="p-3 text-left">Status</th>
+      <th class="p-3 text-left">Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="c : ${complaints}" class="border-t">
+
+      <td class="p-3" th:text="${c.caseNumber}"></td>
+
+      <td class="p-3" th:text="${c.victimId}"></td>
+
+      <td class="p-3" th:text="${c.type}"></td>
+
+      <td class="p-3" th:text="${c.status}"></td>
+
+      <td class="p-3">
+
+        <a th:href="@{'/admin/view/' + ${c.id}}"
+           class="bg-blue-600 text-white px-3 py-1 rounded">
+          View
+        </a>
+
+      </td>
+
+    </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+</body>
+</html>

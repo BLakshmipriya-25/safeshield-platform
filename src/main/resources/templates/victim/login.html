@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShield - Victim Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+<div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+
+  <h2 class="text-3xl font-bold mb-6 text-center text-purple-600">Victim Login</h2>
+
+  <form th:action="@{/victim/login}" method="post" class="space-y-4">
+    <div>
+      <label for="victimId" class="block mb-1 font-semibold">Victim ID</label>
+      <input type="text" id="victimId" name="victimId" class="w-full border p-2 rounded" required>
+    </div>
+    <div>
+      <label for="recoveryCode" class="block mb-1 font-semibold">Recovery Code</label>
+      <input type="text" id="recoveryCode" name="recoveryCode" class="w-full border p-2 rounded" required>
+    </div>
+
+    <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">
+      Login
+    </button>
+  </form>
+
+  <p class="mt-4 text-center text-gray-500">
+    <a href="/victim/register" class="hover:underline text-purple-600">Generate Anonymous Account</a>
+  </p>
+
+  <a href="/" class="mt-6 block text-center text-gray-500 hover:underline">Back to Home</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Successful</title>
+    <style>
+        body { font-family: Arial; background:#f4f6fb; padding:40px; }
+        .card {
+            max-width:600px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+            text-align:center;
+        }
+        .box {
+            background:#f2f2f2;
+            padding:15px;
+            margin:10px 0;
+            border-radius:8px;
+            font-weight:bold;
+        }
+        .btn {
+            background:#28a745;
+            color:white;
+            padding:10px 20px;
+            border:none;
+            border-radius:20px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Registration Successful!</h2>
+    <p>Your anonymous account has been created.</p>
+
+    <h3 style="color:red;">⚠️ SAVE THESE CREDENTIALS NOW</h3>
+
+    <p>Victim ID</p>
+    <div class="box" id="victimId" th:text="${victimId}"></div>
+
+    <p>Recovery Code</p>
+    <div class="box" id="recoveryCode" th:text="${recoveryCode}"></div>
+
+    <button class="btn" onclick="copyCredentials()">📋 Copy to Clipboard</button>
+
+    <br><br>
+
+    <a th:href="@{/victim/dashboard(victimId=${victimId})}"
+       style="font-weight:bold; text-decoration:none;">
+        I have saved my credentials - Continue to Dashboard
+    </a>
+
+</div>
+
+<script>
+    function copyCredentials() {
+        let victimId = document.getElementById("victimId").innerText;
+        let recoveryCode = document.getElementById("recoveryCode").innerText;
+
+        navigator.clipboard.writeText(
+            "Victim ID: " + victimId + "\nRecovery Code: " + recoveryCode
+        );
+
+        alert("Credentials copied to clipboard!");
+    }
+</script>
+
+</body>
+</html>

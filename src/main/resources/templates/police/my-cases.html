@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Assigned Cases</title>
+</head>
+<body>
+
+<h2>My Assigned Cases</h2>
+
+<table border="1">
+    <tr>
+        <th>Case ID</th>
+        <th>Victim</th>
+        <th>Status</th>
+        <th>View</th>
+    </tr>
+
+    <tr th:each="c : ${complaints}">
+        <td th:text="${c.caseId}"></td>
+        <td th:text="${c.victimId}"></td>
+        <td th:text="${c.status}"></td>
+
+        <td>
+            <a th:href="@{'/police/view/' + ${c.id}}">
+                Open
+            </a>
+        </td>
+    </tr>
+
+</table>
+
+<br>
+<a href="/police/dashboard">Back</a>
+
+</body>
+</html>

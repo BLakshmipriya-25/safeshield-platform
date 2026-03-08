@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-6xl mx-auto p-10">
+
+  <h1 class="text-3xl font-bold mb-8">Admin Dashboard</h1>
+
+  <div class="grid grid-cols-3 gap-6">
+
+    <div class="bg-white p-6 shadow rounded">
+      <h2 class="text-lg font-semibold">Total Complaints</h2>
+      <p class="text-3xl text-purple-700"
+         th:text="${totalComplaints}"></p>
+    </div>
+
+    <div class="bg-white p-6 shadow rounded">
+      <h2 class="text-lg font-semibold">Total Victims</h2>
+      <p class="text-3xl text-blue-700"
+         th:text="${totalVictims}"></p>
+    </div>
+
+    <div class="bg-white p-6 shadow rounded">
+      <h2 class="text-lg font-semibold">High Risk Cases</h2>
+      <p class="text-3xl text-red-600"
+         th:text="${highPriorityCases}"></p>
+    </div>
+
+  </div>
+
+  <div class="mt-10">
+
+    <a href="/admin/complaints"
+       class="bg-purple-600 text-white px-6 py-2 rounded">
+      View Complaints
+    </a>
+
+    <a href="/admin/logout"
+       class="ml-4 bg-gray-500 text-white px-6 py-2 rounded">
+      Logout
+    </a>
+
+  </div>
+
+</div>
+
+</body>
+</html>

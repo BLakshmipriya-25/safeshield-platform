@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Counsellor Chat - SafeShield</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-purple-700 text-white shadow-md">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        <div>
+            <h1 class="text-xl font-bold">SafeShield Counsellor</h1>
+            <p class="text-sm opacity-80">
+                Chat with Victim
+            </p>
+        </div>
+
+        <a href="/counsellor/dashboard"
+           class="bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">
+            ← Back
+        </a>
+
+    </div>
+</header>
+
+
+<!-- CHAT AREA -->
+<div class="flex-1 flex justify-center p-6">
+
+    <div class="w-full max-w-3xl bg-white rounded-2xl shadow-lg flex flex-col">
+
+        <!-- VICTIM INFO -->
+        <div class="border-b px-6 py-4 bg-purple-50 rounded-t-2xl">
+            <h2 class="text-lg font-semibold text-gray-700">
+                Victim ID:
+                <span class="text-purple-700 font-bold"
+                      th:text="${victimId}">
+            </span>
+            </h2>
+        </div>
+
+
+        <!-- MESSAGES -->
+        <div id="chatBox"
+             class="flex-1 p-6 overflow-y-auto space-y-6 h-[420px]">
+
+            <div th:each="msg : ${messages}">
+
+                <!-- Victim Message -->
+                <!-- Victim Message -->
+                <div th:if="${msg.sender == 'VICTIM'}"
+                     class="flex flex-col items-start space-y-1">
+
+                    <div class="bg-gray-200 text-gray-800 px-5 py-3 rounded-2xl shadow max-w-sm">
+                        <span th:text="${msg.message}"></span>
+                    </div>
+
+                    <!-- High Risk Warning -->
+                    <div th:if="${msg.priority == 'HIGH'}"
+                         class="text-red-600 text-xs font-semibold">
+                        🚨 High Risk Message
+                    </div>
+
+                    <!-- Time -->
+                    <span class="text-xs text-gray-500"
+                          th:text="${#temporals.format(msg.timestamp,'HH:mm')}">
+                    </span>
+
+                </div>
+
+
+                <!-- Counsellor Message -->
+                <div th:if="${msg.sender == 'COUNSELLOR'}"
+                     class="flex flex-col items-end">
+
+                    <div class="bg-purple-600 text-white px-5 py-3 rounded-2xl shadow max-w-sm">
+
+                        <span th:text="${msg.message}"></span>
+
+                        <!-- TIME + TICKS -->
+                        <div class="text-xs text-purple-200 mt-1 text-right">
+                            <span th:text="${#temporals.format(msg.timestamp,'HH:mm')}"></span>
+                            ✓✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGE INPUT -->
+        <form action="/counsellor/send-message"
+              method="post"
+              class="border-t p-4 flex gap-3">
+
+            <input type="hidden"
+                   name="victimId"
+                   th:value="${victimId}"/>
+
+            <input type="text"
+                   name="message"
+                   placeholder="Type your message..."
+                   class="flex-1 border rounded-full px-4 py-2 focus:ring-2 focus:ring-purple-400 outline-none"
+                   required>
+
+            <button
+                    class="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition">
+                Send
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center text-gray-400 text-sm py-4">
+    SafeShield Counselling System © 2026
+</footer>
+
+
+<!-- AUTO SCROLL -->
+<script>
+    const chatBox = document.getElementById("chatBox");
+    chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+
+</body>
+</html>

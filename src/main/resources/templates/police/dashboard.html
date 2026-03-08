@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Police Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-7xl mx-auto p-8">
+
+    <!-- HEADER -->
+    <div class="bg-blue-900 text-white shadow-lg rounded-2xl p-6 mb-8 flex justify-between items-center">
+
+        <div>
+            <h1 class="text-3xl font-bold tracking-wide">
+                Police Command Center
+            </h1>
+            <p class="text-blue-200 text-sm mt-1">
+                Inspector  shiva
+            </p>
+        </div>
+
+        <a href="/police/logout"
+           class="bg-orange-500 px-5 py-2 rounded-lg hover:bg-orange-600 transition font-medium">
+            Logout
+        </a>
+    </div>
+
+
+    <!-- STATISTICS -->
+    <div class="grid md:grid-cols-4 gap-6 mb-10">
+
+        <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-blue-900">
+            <p class="text-gray-500 text-sm">Total Cases</p>
+            <p class="text-3xl font-bold text-blue-900 mt-2"
+               th:text="${total}">0</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-orange-500">
+            <p class="text-gray-500 text-sm">Under Review</p>
+            <p class="text-3xl font-bold text-orange-500 mt-2"
+               th:text="${underReview}">0</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-indigo-700">
+            <p class="text-gray-500 text-sm">Investigation</p>
+            <p class="text-3xl font-bold text-indigo-700 mt-2"
+               th:text="${investigation}">0</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-green-600">
+            <p class="text-gray-500 text-sm">Closed</p>
+            <p class="text-3xl font-bold text-green-600 mt-2"
+               th:text="${closed}">0</p>
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVE CASES TABLE -->
+    <div class="bg-white rounded-2xl shadow-lg border p-8 mb-12">
+
+        <h2 class="text-xl font-semibold text-blue-900 mb-6">
+            Anonymous Complaints
+        </h2>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+
+                <thead class="bg-blue-50 border-b">
+                <tr>
+                    <th class="p-4 text-sm font-semibold text-blue-900">Case ID</th>
+                    <th class="p-4 text-sm font-semibold text-blue-900">Victim ID</th>
+                    <th class="p-4 text-sm font-semibold text-blue-900">Type</th>
+                    <th class="p-4 text-sm font-semibold text-blue-900">Status</th>
+                    <th class="p-4 text-sm font-semibold text-blue-900">Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="c : ${complaints}"
+                    class="border-b hover:bg-blue-50 transition">
+
+                    <td class="p-4 font-bold text-blue-900"
+                        th:text="${c.caseNumber != null ? c.caseNumber : 'N/A'}">
+                    </td>
+
+                    <td class="p-4 text-gray-700"
+                        th:text="${c.victimId}">
+                    </td>
+
+                    <td class="p-4 text-gray-700"
+                        th:text="${c.type}">
+                    </td>
+
+                    <td class="p-4">
+
+                        <span th:if="${c.status == 'Under Review'}"
+                              class="px-3 py-1 text-sm rounded-full bg-orange-100 text-orange-700 font-medium">
+                            Under Review
+                        </span>
+
+                        <span th:if="${c.status == 'Investigation'}"
+                              class="px-3 py-1 text-sm rounded-full bg-indigo-100 text-indigo-700 font-medium">
+                            Investigation
+                        </span>
+
+                        <span th:if="${c.status == 'Closed'}"
+                              class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-700 font-medium">
+                            Closed
+                        </span>
+
+                    </td>
+
+                    <td class="p-4">
+                        <a th:href="@{'/police/view/' + ${c.id}}"
+                           class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">
+                            View case-details
+                        </a>
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    <!-- SECURITY REMINDER -->
+    <div class="bg-blue-50 border-l-4 border-orange-500 rounded-2xl shadow p-6">
+
+        <h3 class="text-lg font-semibold text-blue-900 mb-4">
+            ⚠️ Privacy & Security Reminder
+        </h3>
+
+        <ul class="text-gray-700 space-y-2 text-sm">
+            <li>• All victim identities are encrypted and protected</li>
+            <li>• All officer actions are logged in the audit system</li>
+            <li>• Evidence can only be decrypted with proper authorization</li>
+            <li>• Victim identity can only be revealed with explicit victim consent</li>
+        </ul>
+
+    </div>
+
+</div>
+
+</body>
+</html>

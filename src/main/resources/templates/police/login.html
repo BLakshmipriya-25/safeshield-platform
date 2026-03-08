@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>SafeShield - Police Command Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- TOP AUTHORITY BAR -->
+<div class="bg-blue-900 text-white py-4 shadow-md">
+  <div class="max-w-6xl mx-auto flex justify-between items-center px-6">
+
+    <!-- LEFT: BACK BUTTON -->
+    <a href="/"
+       class="text-blue-200 hover:text-white transition text-sm font-medium">
+      ← Back to Home
+    </a>
+
+    <!-- CENTER TITLE -->
+    <h1 class="text-lg font-semibold tracking-wide">
+      🇮🇳 SafeShield Cyber Crime Division
+    </h1>
+
+    <!-- RIGHT LABEL -->
+    <span class="text-sm text-blue-200">
+            🛡 Secure Police Access
+        </span>
+
+  </div>
+</div>
+
+
+<div class="min-h-screen flex items-center justify-center">
+
+  <div class="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-md border">
+
+    <!-- ICON SECTION -->
+    <div class="text-center mb-8">
+
+      <div class="bg-blue-900 w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-3xl shadow-lg">
+        👮‍♂️
+      </div>
+
+      <h2 class="text-2xl font-bold text-blue-900 mt-5">
+        Police Command Login
+      </h2>
+
+      <p class="text-gray-500 text-sm mt-2">
+        Authorized Officers Only
+      </p>
+
+    </div>
+
+    <!-- FORM -->
+    <form method="post" action="/police/login" class="space-y-5">
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-600 mb-1">
+          🆔 Officer ID
+        </label>
+        <input type="text" name="officerId"
+               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+               placeholder="Enter Officer ID"
+               required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-600 mb-1">
+          🔑 Password
+        </label>
+        <input type="password" name="password"
+               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+               placeholder="Enter Password"
+               required>
+      </div>
+
+      <button type="submit"
+              class="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition shadow-md">
+        🔐 Secure Login
+      </button>
+
+    </form>
+
+    <div class="mt-6 text-center text-sm text-gray-500 border-t pt-4">
+      Demo Credentials: <span class="font-semibold">OFF001 / police123</span>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- BOTTOM SECURITY BAR -->
+<div class="bg-gray-200 text-center text-xs text-gray-600 py-3">
+  ⚠ All login attempts are monitored and logged for security purposes.
+</div>
+
+</body>
+</html>

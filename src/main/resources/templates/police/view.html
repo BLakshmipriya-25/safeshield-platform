@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Case Details - Police Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-5xl mx-auto p-8">
+
+    <!-- HEADER -->
+    <div class="bg-blue-900 text-white p-6 rounded-2xl shadow-md mb-8 flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold">Case Details</h1>
+            <p class="text-blue-200 text-sm">Inspector Shiva</p>
+        </div>
+
+        <a href="/police/dashboard"
+           class="bg-orange-500 px-4 py-2 rounded-lg hover:bg-orange-600 transition">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <!-- CASE INFO CARD -->
+    <div class="bg-white rounded-2xl shadow-lg border p-8 mb-8">
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <div>
+                <p class="text-sm text-gray-500">Case Number</p>
+                <p class="text-lg font-semibold text-gray-800"
+                   th:text="${complaint.caseNumber != null ? complaint.caseNumber : 'N/A'}"></p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Victim ID</p>
+                <p class="text-lg font-semibold text-gray-800"
+                   th:text="${complaint.victimId}"></p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Type</p>
+                <p class="text-lg font-semibold text-gray-800"
+                   th:text="${complaint.type}"></p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Date</p>
+                <p class="text-lg font-semibold text-gray-800"
+                   th:text="${complaint.date}"></p>
+            </div>
+
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="mt-6">
+            <p class="text-sm text-gray-500">Description</p>
+            <div class="bg-gray-50 p-4 rounded-lg mt-2 text-gray-700 border"
+                 th:text="${complaint.description}">
+            </div>
+        </div>
+
+        <!-- STATUS BADGE -->
+        <div class="mt-6">
+            <p class="text-sm text-gray-500 mb-2">Current Status</p>
+
+            <span th:if="${complaint.status == 'Under Review'}"
+                  class="px-4 py-2 rounded-full bg-orange-100 text-orange-700 font-semibold">
+                Under Review
+            </span>
+
+            <span th:if="${complaint.status == 'Investigation'}"
+                  class="px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold">
+                Investigation
+            </span>
+
+            <span th:if="${complaint.status == 'Closed'}"
+                  class="px-4 py-2 rounded-full bg-green-100 text-green-700 font-semibold">
+                Closed
+            </span>
+        </div>
+
+    </div>
+
+    <!-- 🔍 INVESTIGATION METADATA -->
+    <div th:if="${complaint.latitude != null}"
+         class="bg-white rounded-2xl shadow-lg border p-8 mb-8">
+
+        <h2 class="text-xl font-semibold text-blue-900 mb-4">
+            🔍 Investigation Metadata
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+
+            <p><strong>Latitude:</strong>
+                <span th:text="${complaint.latitude}"></span>
+            </p>
+
+            <p><strong>Longitude:</strong>
+                <span th:text="${complaint.longitude}"></span>
+            </p>
+
+            <p><strong>IP Address:</strong>
+                <span th:text="${complaint.ipAddress}"></span>
+            </p>
+
+        </div>
+    </div>
+
+    <!-- GIS TRACKING -->
+    <div class="bg-white rounded-2xl shadow-lg border p-8 mt-10">
+
+        <h2 class="text-xl font-semibold text-blue-900 mb-4">
+            GIS Tracking & Location Analysis
+        </h2>
+
+        <p class="text-gray-600 text-sm mb-6">
+            Complaint Submission Location
+        </p>
+
+        <div id="map" class="w-full h-96 rounded-xl border shadow"></div>
+
+    </div>
+
+    <!-- LOCATION INFO -->
+    <div class="bg-blue-50 border-l-4 border-orange-500 rounded-xl p-6 shadow mt-8">
+        <h3 class="text-md font-semibold text-blue-900 mb-3">
+            About Location Data
+        </h3>
+        <p class="text-gray-700 text-sm">
+            Location coordinates are captured using secure browser geolocation API
+            at the time of complaint submission. This ensures real-time location accuracy
+            while preserving victim anonymity.
+        </p>
+    </div>
+
+    <!-- LEAFLET -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script th:inline="javascript">
+        const latitude = [[${complaint.latitude}]];
+        const longitude = [[${complaint.longitude}]];
+
+        if (latitude && longitude) {
+
+            const map = L.map('map').setView([latitude, longitude], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+
+            L.marker([latitude, longitude])
+                .addTo(map)
+                .bindPopup("Evidence Captured Here")
+                .openPopup();
+        }
+    </script>
+
+    <!-- EVIDENCE IMAGE -->
+    <div class="mt-6">
+
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+            Evidence File
+        </h3>
+
+        <div th:if="${complaint.evidencePath != null}"
+             class="flex justify-center">
+
+            <img th:src="@{'/' + ${complaint.evidencePath}}"
+                 class="max-h-96 rounded-lg shadow-lg border hover:scale-105 transition duration-300"
+                 alt="Evidence Image">
+        </div>
+
+        <div th:if="${complaint.evidencePath == null}">
+            <p class="text-gray-500 text-sm">
+                No evidence uploaded.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- UPDATE STATUS -->
+    <div class="bg-white rounded-2xl shadow-lg border p-6 mb-8 mt-8">
+
+        <h3 class="text-lg font-semibold text-blue-900 mb-4">
+            Update Case Status
+        </h3>
+
+        <form th:action="@{'/police/update-status/' + ${complaint.id}}" method="post">
+
+            <div class="flex gap-4 items-center">
+
+                <select name="status"
+                        class="border rounded-lg p-3 w-64">
+
+                    <option value="Under Review"
+                            th:selected="${complaint.status == 'Under Review'}">
+                        Under Review
+                    </option>
+
+                    <option value="Investigation"
+                            th:selected="${complaint.status == 'Investigation'}">
+                        Investigation
+                    </option>
+
+                    <option value="Closed"
+                            th:selected="${complaint.status == 'Closed'}">
+                        Closed
+                    </option>
+
+                </select>
+
+                <button type="submit"
+                        class="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition">
+                    Update
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
